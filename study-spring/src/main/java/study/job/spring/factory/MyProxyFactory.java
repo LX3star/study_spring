@@ -25,10 +25,6 @@ public class MyProxyFactory {
     @Autowired
     private TransactionManager transactionManager;
 
-    public void setTransactionManager(TransactionManager transactionManager) {
-        this.transactionManager = transactionManager;
-    }
-
     /**
      * Jdk动态代理
      * @param obj  委托对象

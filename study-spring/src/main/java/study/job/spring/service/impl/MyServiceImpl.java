@@ -1,5 +1,6 @@
 package study.job.spring.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import study.job.spring.annotion.Autowired;
 import study.job.spring.annotion.Service;
 import study.job.spring.annotion.Transactional;
@@ -24,7 +25,9 @@ public class MyServiceImpl implements MyService {
     private AccountDao accountDao;
 
     @Override
-    public void transfer(String sendNo, String recievedNo, int money) throws Exception {
+    public JSONObject transfer(String sendNo, String recievedNo, int money) throws Exception {
+
+        JSONObject result = new JSONObject();
 
         try {
             // 从sendNo转账到recievedNo
@@ -47,10 +50,15 @@ public class MyServiceImpl implements MyService {
             // 更新信息
 
             accountDao.updateBalanceByCardNo(recievedNo, recievedMoneyAfter);
+
+            result.put("sendNoMoney", sendMoneyAfter);
+            result.put("recievedNoMoney", recievedMoneyAfter);
+
         } catch (Exception e) {
             throw e;
         }
 
+        return result;
 
 
 

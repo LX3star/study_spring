@@ -45,9 +45,11 @@ public class MyBeanFactory {
             SAXReader saxReader = new SAXReader();
             Document document = saxReader.read(resourceAsStream);
             Element rootElement = document.getRootElement();
-            //Element scanElement = (Element) rootElement.selectSingleNode("//component-scan");
-            //String scanPackage = scanElement.attributeValue("base-package");
-            String scanPackage = "study.job.spring";
+
+            Element scanElement = rootElement.element("component-scan");
+            String scanPackage = scanElement.attributeValue("base-package");
+
+            //String scanPackage = "study.job.spring";
             // 扫描并实例化特定注解的
             doScanAndInstance(scanPackage);
             // 注入依赖

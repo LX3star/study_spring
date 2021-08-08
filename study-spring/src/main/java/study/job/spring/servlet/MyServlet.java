@@ -1,4 +1,6 @@
 package study.job.spring.servlet;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import study.job.spring.factory.MyBeanFactory;
 import study.job.spring.service.MyService;
 
@@ -38,22 +40,30 @@ public class MyServlet extends HttpServlet {
         String recieveNo = req.getParameter("recieveNo");
         String moneyStr = req.getParameter("money");
         int money = Integer.parseInt(moneyStr);
-        String reslt = "";
+        JSONObject reslt = new JSONObject();
         try {
-            myService.transfer(sendNo, recieveNo, money);
-            reslt = "执行成功";
+            JSONObject data = myService.transfer(sendNo, recieveNo, money);
+            reslt.put("code", 200);
+            reslt.put("msg", "执行成功");
+            reslt.put("data", data);
+
         } catch (Exception e) {
+            String mes = "";
             // 在利用 Method 对象的 invoke 方法调用目标对象的方法时, 若在目标对象的方法内部抛出异常, 会抛出 InvocationTargetException 异常,
             // 该异常包装了目标对象的方法内部抛出异常, 可以通过调用 InvocationTargetException 异常类的的 getTargetException() 方法得到原始的异常.
             if (e instanceof InvocationTargetException) {
-                reslt = ((InvocationTargetException) e).getTargetException().toString();
+                mes = ((InvocationTargetException) e).getTargetException().toString();
             } else {
-                reslt = e.getMessage();
+                mes = e.getMessage();
             }
-
+            reslt.put("code", 501);
+            reslt.put("msg", mes);
+            reslt.put("data", new JSONObject());
         }
         // 响应
         resp.setContentType("application/json;charset=utf-8");
+
+
         resp.getWriter().print(reslt);
     }
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <beans>
     <!-- 相当于只获取某个包下的注解类 -->
-    <component-scan base-package="huangzq.demo"></component-scan>
+    <component-scan base-package="study.job.spring"></component-scan>
 </beans>
